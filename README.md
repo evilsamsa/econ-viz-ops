@@ -1,173 +1,54 @@
-# econ-viz-ops
-Web-dashboard for visualization economical data from World bank api
+# global-growth-ops
 
-<h1>Web dashboard for parsing and visualization data from World bank API</h1>
+> Web dashboard that forecasts countries' economic growth from open World Bank data using machine learning, with automated model retraining and deployment (MLOps).
 
+![status](https://img.shields.io/badge/status-in_development-yellow)
+![license](https://img.shields.io/badge/license-MIT-green)
 
-## Goal of projects 
+## 🎯 Goal
 
-> Parsing actual data from World bank APIs
->
->> Agricultural & Rural Development
->>
->>>Forest area (%of land area)
->>
->>>Agricultural irrigated land (% of total agricultural land)
->>
->>>Arable land (hectares per person)
->
->>Aid Effectivness
->>
->>>Income share held by lowest 20%
->>
->>>Mortality rate, under-5 (per 1,000 live births)
->>
->>>Net official development assistance received (current US$)
->
->>Climat Change
->>
->>>Access to electricity (% of population)
->>
->>>Energy use (kg of oil equivalent per capita)
->>
->>>Renewable energy consumption (% of total final energy consumption)
->
->>Economy and Growth
->>
->>>GDP growth (annual %)
->>
->>>GDP per capita (current US$)
->>
->>>External debt stocks (% of GNI)
->
->>Education
->>
->>>Government expenditure per student, primary (% of GDP per capita)
->>
->>>Unemployment, total (% of total labor force) (modeled ILO estimate)
->>
->>>Government expenditure on education, total (% of GDP)
->
->>Energy and mining
->>
->>> Accest to electricity
->>
->>>Fossil fuel energy consumption (% of total)
->>
->>>Renewable energy consumption (% of total final energy consumption)
->
->>Envoriment
->>
->>>Annual freshwater withdrawals, total (% of internal resources)
->>
->>>Renewable internal freshwater resources per capita (cubic meters)
->>
->>>Total natural resources rents (% of GDP)
->
->>External debt
->>
->>>Current account balance (BoP, current US$)
->>
->>>Grants, excluding technical cooperation (BoP, current US$)
->>
->>>Short-term debt (% of total reserves)
->
->>Financial sector
->>
->>>Deposit interest rate (%)
->>
->>>Real interest rate (%)
->>
->>>Total reserves (includes gold, current US$)
->
->>Gender
->>
->>>Life expectancy at birth, male (years)
->>
->>>Life expectancy at birth, female (years)
->>
->>>Births attended by skilled health staff (% of total)
->>Health
->>
->>>Cause of death, by injury (% of total)
->>
->>>Mortality caused by road traffic injury (per 100,000 population)
->>
->>>Unmet need for contraception (% of married women ages 15-49)
->
->>Infrastructure
->>
->>>Air transport, registered carrier departures worldwide
->>
->>>Container port traffic (TEU: 20 foot equivalent units)
->>
->>>Mobile cellular subscriptions (per 100 people)
->
->>Poverty
->>
->>>Gini index
->>
->>>Population living in slums (% of urban population)
->>
->>>Survey mean consumption or income per capita, total population (2021 PPP $ per day)
->
->>Private Sector
->>
->>>Fuel exports (% of merchandise exports)
->>
->>>Merchandise imports (current US$)
->>
->>>New businesses registered (number)
->
->>Public Sector
->>
->>>Tax revenue (% of GDP)
->>
->>>Expense (% of GDP)
->>
->>>Central government debt, total (% of GDP)
->
->>Science and Technology
->>
->>>High-technology exports (% of manufactured exports)
->>
->>>Patent applications, nonresidents
->>
->>>Researchers in R&D (per million people)
->
->>Social Development
->>
->>>Adolescent fertility rate (births per 1,000 women ages 15-19)
->>
->>>Proportion of seats held by women in national parliaments (%)
->>
->>>Unemployment, male (% of male labor force) (modeled ILO estimate)
->
->>Social Protection and Labor
->>
->>>Labor force, total
->>
->>>Unemployment, total (% of total labor force) (modeled ILO estimate)
->>
->>>Employment in industry, male (% of male employment) (modeled ILO estimate)
->
->>Trade
->>
->>>Energy imports, net (% of energy use)
->>
->>>Exports of goods and services (% of GDP)
->>
->>>Merchandise exports (current US$)
->
->>Urban development 
->>
->>>Population in the largest city (% of urban population)
->>
->>>Population living in slums (% of urban population)
->>
->>>Urban population (% of total population)
+Predict GDP per capita growth for countries using macroeconomic indicators, and explain which factors drive growth the most.
 
+**Key features:**
+- Pull live data from World Bank API (free, no key required)
+- Train ML model to forecast 1-year and 3-year GDP growth
+- Visualize predictions + feature importance (what drives growth)
+- Auto-retrain model monthly when new data arrives (MLOps pipeline)
+- Deploy automatically via CI/CD to VPS with monitoring
 
+## 📊 Data
 
-## Technologies 
+Source: [World Bank Open Data API](https://api.worldbank.org/v2/)
 
+### Indicators used
+
+| Role | Indicator | Code |
+|---|---|---|
+| **Target** | GDP per capita growth (annual %) | `NY.GDP.PCAP.KD.ZG` |
+| Feature | Government expenditure on education (% of GDP) | `SE.XPD.TOTL.GD.ZS` |
+| Feature | Current health expenditure (% of GDP) | `SH.XPD.CHEX.GD.ZS` |
+| Feature | Access to electricity (% of population) | `EG.ELC.ACCS.ZS` |
+| Feature | Gross capital formation (% of GDP) | `NE.GDI.TOTL.ZS` |
+| Feature | Exports of goods and services (% of GDP) | `NE.EXP.GNFS.ZS` |
+| Feature | Real interest rate (%) | `FR.INR.RISK` |
+| Feature | Energy use (kg of oil equivalent per capita) | `EG.USE.PCAP.KG.OE` |
+| Feature | Urban population (% of total) | `SP.URB.TOTL.IN.ZS` |
+| Feature | High-technology exports (% of manufactured exports) | `TX.VAL.TECH.MF.ZS` |
+| Feature | Internet users (per 100 people) | `IT.NET.USER.P2` |
+
+**Data coverage:** ~100 countries, 1990–2024 (panel data).
+
+Full indicator catalog: [docs/indicators.md](docs/indicators.md)
+
+## 🛠 Technologies
+
+- **Language:** Python 3
+- **Data / ML:** requests, pandas, scikit-learn
+- **API:** FastAPI
+- **Frontend:** React + Chart.js
+- **Database:** PostgreSQL
+- **Infrastructure:** Docker, docker-compose, Ansible, Caddy (HTTPS)
+- **CI/CD:** GitHub Actions
+- **Monitoring:** Prometheus, Grafana, Uptime Kuma
+
+## 🏗 Architecture
